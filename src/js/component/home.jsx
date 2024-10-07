@@ -20,8 +20,10 @@ const TrafficLight = () => {
     };
 
     return (
-        <div className="traffic-light">
+        <div>
             <h2>El color actual es {color}</h2> {/* Texto dinámico para el lector de pantalla */}
+            
+    <div className="traffic-light">
             {colors.map((c, index) => (
                 <div
                     key={index}
@@ -38,7 +40,9 @@ const TrafficLight = () => {
             <button onClick={addPurpleColor} className="btn btn-secondary mt-3" aria-label="Agregar color púrpura">
                 Agregar púrpura
             </button>
+        </div>        
         </div>
+     
     );
 };
 
