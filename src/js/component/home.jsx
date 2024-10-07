@@ -1,26 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+// Componente del semáforo con accesibilidad
+const TrafficLight = () => {
+    const [color, setColor] = useState("red"); // Estado inicial del semáforo
+    const [colors, setColors] = useState(["red", "yellow", "green"]); // Colores iniciales
 
-//create your first component
+    // Función para alternar entre los colores rojo, amarillo y verde
+    const toggleColor = () => {
+        const currentIndex = colors.indexOf(color);
+        const nextIndex = (currentIndex + 1) % colors.length;
+        setColor(colors[nextIndex]);
+    };
+
+    // Función para agregar el color púrpura
+    const addPurpleColor = () => {
+        if (!colors.includes("purple")) {
+            setColors([...colors, "purple"]);
+        }
+    };
+
+    return (
+        <div className="traffic-light">
+            <h2>El color actual es {color}</h2> {/* Texto dinámico para el lector de pantalla */}
+            {colors.map((c, index) => (
+                <div
+                    key={index}
+                    className={`${c} light ${color === c ? "active" : ""}`}
+                    onClick={() => setColor(c)}
+                    aria-label={`Luz ${c}`} // Etiquetas ARIA para cada luz
+                    role="button"
+                    tabIndex={0} // Hacemos los divs interactivos para el lector de pantalla
+                ></div>
+            ))}
+            <button onClick={toggleColor} className="btn btn-primary mt-3" aria-label="Alternar colores">
+                Alternar colores
+            </button>
+            <button onClick={addPurpleColor} className="btn btn-secondary mt-3" aria-label="Agregar color púrpura">
+                Agregar púrpura
+            </button>
+        </div>
+    );
+};
+
+// Componente principal
 const Home = () => {
-	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
-	);
+    return (
+        <div className="text-center">
+            <h1 className="text-center mt-5">Semáforo</h1>
+            <TrafficLight /> {/* Agregamos el semáforo aquí */}
+        </div>
+    );
 };
 
 export default Home;
